@@ -1,0 +1,56 @@
+package com.leitor_csv.csvlib;
+
+import java.io.*;
+import java.util.*;
+
+public class CsvReader {
+    
+    private String caminhoArquivo;
+    
+    public CsvReader(String caminhoArquivo) {
+        this.caminhoArquivo = caminhoArquivo;
+    }
+    
+    public List<String[]> lerTodasLinhas() throws IOException {
+        List<String[]> linhas = new ArrayList<>();
+        File arquivo = new File(caminhoArquivo);
+        
+        if (!arquivo.exists()) {
+            throw new FileNotFoundException("Arquivo não encontrado: " + caminhoArquivo);
+        }
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(arquivo))) {
+            String linha;
+            while ((linha = br.readLine()) != null) {
+                String[] dados = linha.split(";");
+                for (int i = 0; i < dados.length; i++) {
+                    dados[i] = dados[i].trim();
+                    if (dados[i].startsWith("\"") && dados[i].endsWith("\"")) {
+                        dados[i] = dados[i].substring(1, dados[i].length() - 1);
+                    }
+                }
+                linhas.add(dados);
+            }
+        }
+        
+        return linhas;
+    }
+    
+    // Método para ler apenas o cabeçalho (primeira linha)
+    public String[] lerCabecalho() throws IOException {
+        List<String[]> linhas = lerTodasLinhas();
+        if (linhas.isEmpty()) {
+            return new String[0];
+        }
+        return linhas.get(0);
+    }
+    
+    // Método para ler as linhas de dados (sem o cabeçalho)
+    public List<String[]> lerDados() throws IOException {
+        List<String[]> linhas = lerTodasLinhas();
+        if (linhas.size() <= 1) {
+            return new ArrayList<>();
+        }
+        return linhas.subList(1, linhas.size());
+    }
+}
