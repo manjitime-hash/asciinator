@@ -54,7 +54,44 @@ public class CsvValidator {
     }
     
   
-    private static void escreverCabecalhos(String nomeArquivo, String[] cabecalhos) {
+private static void escreverCabecalhos(String nomeArquivo, String[] cabecalhos) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
             for (int i = 0; i < cabecalhos.length; i++) {
-           }
+                writer.append(cabecalhos[i]);
+                if (i < cabecalhos.length - 1) {
+                    writer.append(";");
+                }
+            }
+            writer.append("\n");
+            System.out.println(" Cabeçalhos escritos: " + Arrays.toString(cabecalhos));
+        } catch (IOException e) {
+            System.err.println(" Erro ao escrever cabeçalhos: " + e.getMessage());
+        }
+    }
+    
+  
+    public static void adicionarLinha(String nomeArquivo, String[] dados) {
+        try (FileWriter writer = new FileWriter(nomeArquivo, true)) {
+            for (int i = 0; i < dados.length; i++) {
+                writer.append(dados[i]);
+                if (i < dados.length - 1) {
+                    writer.append(";");
+                }
+            }
+            writer.append("\n");
+            System.out.println(" Linha adicionada: " + Arrays.toString(dados));
+        } catch (IOException e) {
+            System.err.println(" Erro ao adicionar linha: " + e.getMessage());
+        }
+    }
+    
+    
+    public static void verificarMultiplosArquivos(Map<String, String[]> arquivosECabecalhos) {
+        System.out.println("\n Verificando múltiplos arquivos...");
+        for (Map.Entry<String, String[]> entry : arquivosECabecalhos.entrySet()) {
+            String arquivo = entry.getKey();
+            String[] cabecalhos = entry.getValue();
+            verificarOuCriarCsv(arquivo, cabecalhos);
+        }
+    }
+}
