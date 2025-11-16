@@ -6,17 +6,17 @@ import java.util.*;
 
 public class CsvValidator {
     
-  
+   
     public static boolean verificarOuCriarCsv(String nomeArquivo, String[] cabecalhos) {
         File arquivo = new File(nomeArquivo);
         
         if (arquivo.exists()) {
-            System.out.println("Arquivo '" + nomeArquivo + "' já existe.");
+            System.out.println("✅ Arquivo '" + nomeArquivo + "' já existe.");
             return true;
         } else {
             try {
                 if (arquivo.createNewFile()) {
-                    System.out.println(" Criando novo arquivo: " + nomeArquivo);
+                    System.out.println("📄 Criando novo arquivo: " + nomeArquivo);
                     escreverCabecalhos(nomeArquivo, cabecalhos);
                     return false;
                 }
@@ -27,7 +27,7 @@ public class CsvValidator {
         return false;
     }
     
-  
+
     public static boolean arquivoExiste(String nomeArquivo) {
         File arquivo = new File(nomeArquivo);
         boolean existe = arquivo.exists();
@@ -35,7 +35,7 @@ public class CsvValidator {
         return existe;
     }
     
-  
+   
     public static boolean criarCsvComCabecalhos(String nomeArquivo, String[] cabecalhos) {
         try {
             File arquivo = new File(nomeArquivo);
@@ -54,7 +54,7 @@ public class CsvValidator {
     }
     
   
-private static void escreverCabecalhos(String nomeArquivo, String[] cabecalhos) {
+    private static void escreverCabecalhos(String nomeArquivo, String[] cabecalhos) {
         try (FileWriter writer = new FileWriter(nomeArquivo)) {
             for (int i = 0; i < cabecalhos.length; i++) {
                 writer.append(cabecalhos[i]);
@@ -69,7 +69,7 @@ private static void escreverCabecalhos(String nomeArquivo, String[] cabecalhos) 
         }
     }
     
-  
+   
     public static void adicionarLinha(String nomeArquivo, String[] dados) {
         try (FileWriter writer = new FileWriter(nomeArquivo, true)) {
             for (int i = 0; i < dados.length; i++) {
@@ -85,7 +85,7 @@ private static void escreverCabecalhos(String nomeArquivo, String[] cabecalhos) 
         }
     }
     
-    
+   
     public static void verificarMultiplosArquivos(Map<String, String[]> arquivosECabecalhos) {
         System.out.println("\n Verificando múltiplos arquivos...");
         for (Map.Entry<String, String[]> entry : arquivosECabecalhos.entrySet()) {
